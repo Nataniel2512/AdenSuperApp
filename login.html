@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Aden Super App - Login</title>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<style>
+:root {
+  --primary-gradient: linear-gradient(135deg, #ff7043, #e53935);
+  --secondary-gradient: linear-gradient(135deg, #ffb74d, #ff7043);
+  --glass-bg: rgba(255,255,255,0.35);
+  --blur: blur(30px);
+  --shadow: 0 20px 50px rgba(0,0,0,0.1);
+  --text-dark: #1c1c1e;
+  --text-light: #fff;
+  --font-family: 'Figtree', sans-serif;
+}
+
+/* RESET */
+*{box-sizing:border-box;margin:0;padding:0;}
+body {
+  font-family: 'Figtree', sans-serif;
+  background: linear-gradient(160deg, #ff7043, #e53935, #ffb74d);
+  background-size: 200% 200%;
+  animation: gradientShift 12s ease infinite;
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Gradient Animation */
+@keyframes gradientShift {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Floating Soft Lights */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.3;
+  animation: float 8s ease-in-out infinite alternate;
+}
+.blob:nth-child(1){background:#ff8a65;width:300px;height:300px;top:-100px;left:-80px;}
+.blob:nth-child(2){background:#ffb74d;width:250px;height:250px;bottom:-60px;right:-60px;animation-delay:2s;}
+@keyframes float {from{transform:translateY(0);}to{transform:translateY(40px);}}
+
+/* Glass Container */
+.container {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 40px 28px;
+  width: 320px;
+  max-width: 90%;
+  z-index: 2;
+  position: relative;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo */
+.logo {
+  width: 130px;
+  margin-bottom: 24px;
+  animation: floatLogo 3s ease-in-out infinite alternate;
+}
+@keyframes floatLogo {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+
+/* Headings */
+h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+/* Buttons */
+.btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  border-radius:18px;
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .25s ease;
+  margin-bottom:14px;
+  backdrop-filter: var(--blur);
+}
+.btn.primary {
+  background: var(--primary-gradient);
+  color:#fff;
+  box-shadow:0 10px 25px rgba(229,57,53,0.35);
+}
+.btn.primary:hover {
+  transform: scale(1.05);
+  box-shadow:0 14px 35px rgba(255,112,67,0.45);
+}
+.btn.secondary {
+  background: rgba(255,255,255,0.85);
+  color: #e53935;
+}
+.btn.secondary:hover {
+  transform: scale(1.03);
+  background: rgba(255,255,255,0.95);
+}
+
+/* Footer */
+.footer {
+  margin-top: 18px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+}
+.footer ion-icon {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+</style>
+</head>
+<body>
+
+<div class="blob"></div>
+<div class="blob"></div>
+
+<script>
+// Redirect if already logged in
+const u = JSON.parse(localStorage.getItem('aden_user') || '{}');
+if(u.name) window.location.href='index.html';
+</script>
+
+<div class="container">
+  <img src="logo1.png" alt="Aden Logo" class="logo" />
+
+  <h1>Welcome to Aden Super App</h1>
+  <p>All your essential services in one smart, vibrant ecosystem.</p>
+
+  <button class="btn primary" onclick="login()">
+    <ion-icon name="qr-code-outline" style="margin-right:8px;font-size:20px;"></ion-icon>
+    Login
+  </button>
+
+  <button class="btn secondary" onclick="guest()">
+    <ion-icon name="person-outline" style="margin-right:8px;font-size:20px;"></ion-icon>
+    Continue as Guest
+  </button>
+
+  <div class="footer">
+    <ion-icon name="shield-checkmark-outline"></ion-icon> Secured by Aden Technologies
+  </div>
+</div>
+
+<script>
+function login(){
+  const user = { name:"Aden User" };
+  localStorage.setItem("aden_user", JSON.stringify(user));
+  window.location.href="index.html";
+}
+function guest(){
+  localStorage.removeItem("aden_user");
+  window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aden Laundry - Home</title>
+
+<!-- Ionicons & Html5 QR -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<!-- ======= ORIGINAL STYLES (kept) + iOS-style enhancements ======= -->
+<style>
+  /* ---------- USER ORIGINAL VARIABLES (kept) ---------- */
+  :root{
+    --blue:#007aff;
+    --card-radius:18px;
+    --shadow: 0 8px 30px rgba(0,0,0,0.08);
+    --glass: rgba(255,255,255,0.85);
+    --muted:#6b7280;
+    --accent-green:#34c759;
+  }
+
+  /* ---------- ADDED GLOBAL iOS-LIKE VARIABLES ---------- */
+  :root{
+    --aden-red: #e53935;
+    --aden-orange: #ff7043;
+    --aden-gradient: linear-gradient(135deg,var(--aden-orange),var(--aden-red));
+    --bg-1: #fdfaf8;
+    --bg-2: #f3f5f9;
+    --radius-lg: 22px;
+    --glass-strong: rgba(255,255,255,0.78);
+    --blur-strong: 16px;
+    --soft-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --card-border: rgba(255,255,255,0.55);
+  }
+
+  /* ---------- RESET ---------- */
+  *{box-sizing:border-box}
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family: 'Figtree', sans-serif;
+    background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    color:#1c1c1e;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:80px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* ---------- wrapper (kept original spacing but polished) ---------- */
+  .wrap{ max-width:980px; margin:20px auto; padding:18px; }
+
+  /* ---------- header (kept structure) ---------- */
+  .header{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; margin-bottom:12px;
+  }
+  .welcome{ display:flex; gap:12px; align-items:center; }
+
+  /* Avatar — upgraded visual */
+  .avatar{
+    width:56px; height:56px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(135deg,var(--blue),var(--accent-green));
+    color:#fff; font-weight:700; font-size:20px;
+    box-shadow: var(--soft-shadow);
+    border: 1px solid rgba(255,255,255,0.35);
+  }
+
+  h1{ margin:0; font-size:18px; font-weight:700; color: #0b0b0c; }
+  p.sub { margin:0; color:#666; font-size:13px }
+
+  /* Buttons — keep original classes but enhance visuals */
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--blue); color:#fff; border:none; padding:10px 14px;
+    border-radius:12px; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(0,122,255,0.2);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:hover{ transform: translateY(-3px); box-shadow:0 10px 20px rgba(0,122,255,0.18); }
+  .btn.ghost{
+    background:#fff; color:var(--blue); border:1px solid #e6eefb; box-shadow:none;
+  }
+  .btn.ghost:hover{ transform: translateY(-2px); }
+
+  /* ---------- cards (original kept but glassified) ---------- */
+  .card{
+    background: var(--glass-strong);
+    border-radius: var(--card-radius);
+    padding:16px; box-shadow:var(--soft-shadow); margin-bottom:14px;
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(var(--blur-strong));
+    -webkit-backdrop-filter: blur(var(--blur-strong));
+  }
+
+  .account-grid{ display:flex; gap:12px; flex-wrap:wrap; }
+  .info{ flex:1 1 220px; min-width:140px; }
+  .info .label{ color:var(--muted); font-size:12px; margin-bottom:6px; }
+  .info .value{ font-weight:600; font-size:15px; color:#111; }
+
+  /* ---------- status (kept original layout with iOS polish) ---------- */
+  .title-row{ display:flex; justify-content:space-between; align-items:center; }
+  .progress-steps{ display:flex; gap:6px; align-items:center; margin-top:14px; position:relative; padding:0 6px; }
+  .progress-steps::before{ content:""; position:absolute; left:28px; right:28px; top:20px; height:4px; background:#e9eef8; border-radius:4px; z-index:0;}
+  .step{ position:relative; z-index:1; width:33%; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .circle{
+    width:44px; height:44px; border-radius:12px; background:#f2f5fb; display:flex; align-items:center; justify-content:center; font-weight:700; color:#8a95ad;
+    transition: all .28s cubic-bezier(.2,.9,.2,1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  }
+  .circle.active{
+    background: linear-gradient(135deg,var(--aden-orange),var(--aden-red));
+    color:#fff; box-shadow: 0 10px 22px rgba(229,57,53,0.14); transform: translateY(-6px);
+  }
+  .step-label{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+  /* ---------- modal (kept original modal structure; enhanced appearance only) ---------- */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 120;
+    padding: 0 12px 20px;
+    transition: all 0.3s ease;
+  }
+  .modal.active {
+    display: flex;
+    animation: modalFadeIn 0.35s ease;
+  }
+  @keyframes modalFadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+
+  .modal-card {
+    background: var(--glass-strong);
+    width: 100%;
+    max-width: 720px;
+    border-radius: 22px;
+    padding: 18px 16px 24px;
+    max-height: 85vh;
+    overflow: auto;
+    box-shadow: var(--soft-shadow);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    transform: translateY(100%);
+    animation: slideUp 0.35s ease forwards;
+    border: 1px solid var(--card-border);
+  }
+  @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 760px) { .modal-grid { grid-template-columns: 1fr 340px; } }
+
+  .form-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .form-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+  .form-row .flex { flex: 1 1 170px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .select, input[type="text"], textarea {
+    width: 100%; padding: 10px 12px; border-radius: 12px;
+    border: 1px solid #e5ebf5; background: #fff; font-size: 14px;
+    transition: all 0.25s ease;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.12); outline: none;
+  }
+
+  /* ---------- items list (kept layout; nicer visuals) ---------- */
+  .items-list { display:flex; flex-direction:column; gap:8px; margin-top:12px; max-height:360px; overflow-y:auto; background:transparent; padding:4px; }
+  .item-row {
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border-radius:14px; padding:14px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all .18s ease;
+  }
+  .item-row:active{ transform:scale(0.995); box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .item-row:hover{ background: linear-gradient(180deg,#fff,#fbfcff); }
+  .item-name { color:#111; font-size:15px; font-weight:500; letter-spacing:-0.2px; }
+  .qty-select {
+    border-radius:10px; padding:8px 10px; background:#f9fafc; border:1px solid #e6ebf5;
+    font-size:14px; font-weight:500; color:#333; transition:all .15s ease; appearance:none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="10" height="6" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg"><path fill="%23999" d="M1 1l4 4 4-4"/></svg>');
+    background-repeat:no-repeat; background-position:right 10px center; background-size:10px 6px;
+  }
+  .qty-select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.12); outline:none; }
+
+  .items-list::-webkit-scrollbar { width:6px; }
+  .items-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius:4px; }
+
+  /* photo preview */
+  .photo-preview { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .photo-thumb { width:72px; height:72px; border-radius:14px; object-fit:cover; box-shadow:0 2px 10px rgba(0,0,0,0.08); }
+
+  /* right summary column */
+  .modal-right {
+    background: linear-gradient(180deg,#f8fbff,#eef5ff);
+    border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:12px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.03);
+  }
+  .summary-title { font-weight:700; font-size:15px; margin-bottom:4px; }
+  .summary-row { display:flex; justify-content:space-between; color:#444; font-size:14px; }
+
+  /* modal actions */
+  .modal-actions { display:flex; gap:10px; margin-top:8px; }
+  .btn.primary {
+    flex:1; background: linear-gradient(135deg, var(--blue), var(--accent-green));
+    color:#fff; border-radius:14px; padding:11px; border:none; font-weight:700; cursor:pointer;
+    box-shadow: 0 6px 16px rgba(0,122,255,0.18);
+  }
+  .btn.secondary {
+    flex:1; background:#fff; border: 1px solid #e5e9f5; color:var(--blue); border-radius:14px; padding:11px; font-weight:700;
+  }
+
+  .muted{ color:#777; font-size:13px; }
+  .center{ text-align:center; }
+
+  .history-list{ max-height:50vh; overflow:auto; padding-right:8px; }
+  .history-item{ border-bottom:1px solid #f1f4f9; padding:10px 0; }
+
+  /* toast (kept but slightly improved) */
+  .toast{ position:fixed; left:50%; transform:translateX(-50%); bottom:24px; background:#111; color:#fff; padding:10px 14px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .3s; z-index:999; }
+  .toast.show{ opacity:1; pointer-events:auto; }
+
+  /* ---------- RECENT HISTORY CARD ---------- */
+.history-preview {
+  animation: fadeIn .6s ease;
+}
+
+.recent-history-list {
+  max-width: 980px;
+  margin: 0 auto 20px;
+  padding: 16px;
+  border-radius: var(--card-radius);
+  background: var(--glass-strong);
+  box-shadow: var(--soft-shadow);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(var(--blur-strong));
+  -webkit-backdrop-filter: blur(var(--blur-strong));
+}
+
+.recent-history-list::-webkit-scrollbar {
+  width: 6px;
+}
+.recent-history-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 3px;
+}
+
+.recent-item {
+  background: rgba(255,255,255,0.85);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all .2s ease;
+}
+.recent-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+.recent-item-id {
+  font-weight: 700;
+  font-size: 15px;
+  color: #111;
+}
+.recent-item-date {
+  font-size: 13px;
+  color: #888;
+}
+.recent-item-detail {
+  font-size: 14px;
+  color: #444;
+  margin-top: 4px;
+}
+.recent-item-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+
+  /* ---------- TABBAR (iOS Style) - override original colors to match app ---------- */
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 14px;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -8px 25px rgba(0,0,0,0.06);
+    z-index: 999;
+  }
+
+  .tabbar ion-icon {
+    font-size: 26px;
+    color: #888;
+    transition: all 0.28s ease;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  .tabbar ion-icon.active {
+    background: var(--aden-gradient);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(229,57,53,0.18);
+    transform: scale(1.12);
+  }
+
+  .tabbar ion-icon:hover {
+    transform: scale(1.18);
+  }
+
+  /* subtle entrance animation for content */
+  @keyframes appearUp { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:none; } }
+  .wrap {
+    max-width: 980px;
+    margin: 20px auto;
+    padding: 18px;
+    padding-bottom: 120px; /* ensures content clears tabbar */
+  }
+
+  /* preserve any original classes/rules from your file (no deletions) */
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="welcome">
+        <div class="avatar" id="avatarInitial">U</div>
+        <div>
+          <h1 id="welcomeName">Welcome</h1>
+          <p class="sub" id="welcomeSub">Aden Laundry Dashboard</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn" id="openPickupBtn"><ion-icon name="cube-outline"></ion-icon> Request Pickup</button>
+        <button class="btn ghost" id="openHistoryBtn"><ion-icon name="time-outline"></ion-icon> History</button>
+      </div>
+    </div>
+
+    <!-- Account card -->
+    <div class="card account-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+        <div style="flex:1">
+          <div class="account-grid">
+            <div class="info">
+              <div class="label">Name</div>
+              <div class="value" id="accName">-</div>
+            </div>
+            <div class="info">
+              <div class="label">Site</div>
+              <div class="value" id="accSite">-</div>
+            </div>
+            <div class="info">
+              <div class="label">Building</div>
+              <div class="value" id="accBuilding">-</div>
+            </div>
+            <div class="info">
+              <div class="label">Room</div>
+              <div class="value" id="accRoom">-</div>
+            </div>
+            <div class="info">
+              <div class="label">Bed</div>
+              <div class="value" id="accBed">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="card status-card">
+      <div class="title-row">
+        <h3 style="margin:0">Laundry Status</h3>
+        <div class="small" id="statusText">—</div>
+      </div>
+
+      <div class="progress-steps">
+        <div class="step">
+          <div class="circle" id="step1">1</div>
+          <div class="step-label">Picked Up</div>
+        </div>
+        <div class="step">
+          <div class="circle" id="step2">2</div>
+          <div class="step-label">Washing</div>
+        </div>
+        <div class="step">
+          <div class="circle" id="step3">3</div>
+          <div class="step-label">Delivered</div>
+        </div>
+      </div>
+    </div>
+  <!-- Recent History Card -->
+<div class="card history-preview" id="recentHistoryCard">
+  <div class="title-row">
+    <h3 style="margin:0">Recent Pickups</h3>
+    <button class="btn ghost small" id="viewFullHistoryBtn"><ion-icon name="time-outline"></ion-icon> View All</button>
+  </div>
+  <div id="recentHistoryList" class="recent-history-list"></div>
+</div>
+  </div>
+  <!-- PICKUP MODAL -->
+  <div class="modal" id="pickupModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="pickupTitle">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 id="pickupTitle" style="margin:0">Request Pickup</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn ghost" id="scanQrBtn"><ion-icon name="qr-code-outline"></ion-icon> Scan QR</button>
+          <button class="btn ghost" id="closePickupModal"><ion-icon name="close-outline"></ion-icon></button>
+        </div>
+      </div>
+
+      <div class="modal-grid">
+        <!-- FORM COLUMN -->
+        <div>
+          <div class="form-row">
+            <div class="flex">
+              <label>Location (auto)</label>
+              <input id="modalLocation" type="text" class="select" placeholder="Site / Building / Room / Bed" />
+            </div>
+            <div style="width:160px">
+              <label>Name</label>
+              <input id="modalName" type="text" class="select" placeholder="Your name" />
+            </div>
+          </div>
+
+          <div style="margin-top:8px; font-weight:700; color:#444;">Laundry List</div>
+          <div class="items-list" id="modalItemsList" aria-live="polite"></div>
+
+          <div style="margin-top:10px;">
+            <label>Note and Comment</label>
+            <textarea id="modalNote" rows="3" placeholder="Any special instructions..." style="resize:vertical"></textarea>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Photo (use camera)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input id="modalPhotoInput" type="file" accept="image/*" capture="environment" />
+              <div class="muted small">Max 10 MB</div>
+            </div>
+            <div class="photo-preview" id="modalPhotoPreview"></div>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:10px;">
+            <button class="btn primary" id="modalSubmitBtn">Submit Pickup</button>
+            <button class="btn secondary" id="modalCancelBtn">Cancel</button>
+          </div>
+        </div>
+
+        <!-- SUMMARY RIGHT COLUMN -->
+        <div class="modal-right">
+          <div>
+            <div class="summary-title">Summary</div>
+            <div class="summary-row"><div class="muted">Location</div><div id="sumLocation">—</div></div>
+            <div class="summary-row"><div class="muted">Name</div><div id="sumName">—</div></div>
+            <div style="height:10px"></div>
+            <div class="summary-title">Items</div>
+            <div id="sumItems" style="max-height:220px;overflow:auto"></div>
+          </div>
+
+          <div style="margin-top:auto">
+            <div class="muted" style="font-size:13px">Demo status will cycle automatically after submission.</div>
+            <div class="modal-actions">
+              <button class="btn ghost" id="viewHistoryBtnInline">View History</button>
+              <button class="btn ghost" id="downloadDemoBtn">Download Demo CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY MODAL -->
+  <div class="modal" id="historyModal" aria-hidden="true">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 style="margin:0">Pickup History - Last 3 months</h3>
+        <div>
+          <button class="btn ghost" id="closeHistoryBtn">Close</button>
+        </div>
+      </div>
+      <div id="historyList" class="history-list">
+        <!-- injected -->
+      </div>
+      <div style="margin-top:12px; text-align:center;">
+        <button class="btn" id="clearHistoryBtn">Clear History</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Saved</div>
+
+  <!-- iOS-Style Tab Bar -->
+<div class="tabbar">
+  <ion-icon name="home-outline" onclick="navigate('index.html')"></ion-icon>
+  <ion-icon name="shirt-outline" class="active" onclick="navigateSlide('index.html')"></ion-icon>
+  <ion-icon name="chatbubble-ellipses-outline" onclick="navigate('#')"></ion-icon>
+  <ion-icon name="person-outline" onclick="navigate('logout.html')"></ion-icon>
+</div>
+
+  <!-- ======= ORIGINAL SCRIPT (kept wholly) ======= -->
+  <script>
+    /* ---------------------------
+       Data & DOM references
+       ---------------------------*/
+    const ITEMS = [
+      'Baju Seragam (Uniform Shirt)',
+      'Celana Seragam (Uniform Trousers)',
+      'Seragam Tersusun (Wearpack)',
+      'Kemeja Lengan Panjang (Long Sleeves Shirt)',
+      'Kemeja Lengan Pendek (Short Sleeves Shirt)',
+      'Kaos (T-Shirt)',
+      'Kaos Dalam (Undershirts)',
+      'Celana Bahan (Trousers)',
+      'Celana Jeans (Jeans Pants)',
+      'Celana Pendek (Shorts)',
+      'Celana Dalam (Underwear)',
+      'Jacket',
+      'Kaos Kaki (Socks)',
+      'Kain Sarung (Sarong Cloth)',
+      'Sapu Tangan (Handkerchief)',
+      'Handuk (Towel)',
+      'Sprei (Bed Sheet)',
+      'Selimut (Blanket)',
+      'Lainnya (Others)'
+    ];
+
+    // header controls
+    const openPickupBtn = document.getElementById('openPickupBtn');
+    const openHistoryBtn = document.getElementById('openHistoryBtn');
+
+    // account fields
+    const accName = document.getElementById('accName');
+    const accSite = document.getElementById('accSite');
+    const accBuilding = document.getElementById('accBuilding');
+    const accRoom = document.getElementById('accRoom');
+    const accBed = document.getElementById('accBed');
+    const avatarInitial = document.getElementById('avatarInitial');
+    const welcomeName = document.getElementById('welcomeName');
+
+    // status
+    const statusText = document.getElementById('statusText');
+    const stepEls = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3')];
+    const STATUS_NAMES = ['Picked Up', 'Washing', 'Delivered'];
+    let currentStep = 0;
+
+    // modal references
+    const pickupModal = document.getElementById('pickupModal');
+    const pickupModalClose = document.getElementById('closePickupModal');
+    const modalLocation = document.getElementById('modalLocation');
+    const modalName = document.getElementById('modalName');
+    const modalItemsList = document.getElementById('modalItemsList');
+    const modalNote = document.getElementById('modalNote');
+    const modalPhotoInput = document.getElementById('modalPhotoInput');
+    const modalPhotoPreview = document.getElementById('modalPhotoPreview');
+    const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+    const modalCancelBtn = document.getElementById('modalCancelBtn');
+    const scanQrBtn = document.getElementById('scanQrBtn');
+
+    // summary
+    const sumLocation = document.getElementById('sumLocation');
+    const sumName = document.getElementById('sumName');
+    const sumItems = document.getElementById('sumItems');
+
+    // history
+    const historyModal = document.getElementById('historyModal');
+    const openHistoryBtn2 = document.getElementById('openHistoryBtn');
+    const closeHistoryBtn = document.getElementById('closeHistoryBtn');
+    const historyList = document.getElementById('historyList');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const viewHistoryBtnInline = document.getElementById('viewHistoryBtnInline');
+    const downloadDemoBtn = document.getElementById('downloadDemoBtn');
+
+    const toast = document.getElementById('toast');
+
+    /* ---------------------------
+       Helpers: localStorage history & user
+       ---------------------------*/
+    function readHistory(){
+      try { return JSON.parse(localStorage.getItem('aden_history') || '[]'); } catch(e){ return []; }
+    }
+    function saveHistory(h){ localStorage.setItem('aden_history', JSON.stringify(h)); }
+    function showToast(text='Saved'){ toast.textContent = text; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 2200); }
+
+    const adenUser = (function(){
+      try { return JSON.parse(localStorage.getItem('aden_user') || '{}'); } catch(e){ return {}; }
+    })();
+
+    function renderAccount(){
+      const u = adenUser || {};
+      accName.textContent = u.name || 'Guest';
+      accSite.textContent = u.site || '-';
+      accBuilding.textContent = u.building || '-';
+      accRoom.textContent = u.room || '-';
+      accBed.textContent = u.bed || '-';
+      avatarInitial.textContent = u.name ? u.name[0].toUpperCase() : 'U';
+      welcomeName.textContent = u.name ? u.name : 'Guest';
+      // prefills for modal
+      modalLocation.value = `${u.site || ''}${u.building ? ' / ' + u.building : ''}${u.room ? ' / ' + u.room : ''}${u.bed ? ' / ' + u.bed : ''}`.trim();
+      modalName.value = u.name || '';
+      updateSummary();
+    }
+    renderAccount();
+
+    /* ---------------------------
+       Build Items list (modal)
+       ---------------------------*/
+    function createQtySelect(name){
+      const sel = document.createElement('select');
+      sel.className = 'qty-select';
+      for(let i=0;i<=20;i++){
+        const o = document.createElement('option'); o.value=i; o.textContent=i; sel.appendChild(o);
+      }
+      sel.addEventListener('change', updateSummary);
+      return sel;
+    }
+
+    function renderModalItems(){
+      modalItemsList.innerHTML = '';
+      ITEMS.forEach((it, idx)=>{
+        const row = document.createElement('div'); row.className='item-row';
+        const left = document.createElement('div'); left.className='item-name'; left.textContent = it;
+        const right = createQtySelect(it);
+        row.appendChild(left); row.appendChild(right);
+        modalItemsList.appendChild(row);
+      });
+    }
+    renderModalItems();
+
+    /* ---------------------------
+       Modal open/close & events
+       ---------------------------*/
+    openPickupBtn.addEventListener('click', ()=>{ pickupModal.classList.add('active'); pickupModal.setAttribute('aria-hidden','false'); updateSummary(); });
+    pickupModalClose.addEventListener('click', closePickupModal);
+    modalCancelBtn.addEventListener('click', closePickupModal);
+    function closePickupModal(){ pickupModal.classList.remove('active'); pickupModal.setAttribute('aria-hidden','true'); clearModalPreview(); }
+
+    // scan QR button - uses html5-qrcode to open a temporary scanner modal to read and fill fields
+    scanQrBtn.addEventListener('click', async ()=>{
+      // create a simple small scanner overlay
+      const scanOverlay = document.createElement('div');
+      scanOverlay.style = 'position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:2000';
+      const container = document.createElement('div');
+      container.style = 'width:300px;max-width:90vw;background:#fff;border-radius:12px;padding:8px;text-align:center';
+      container.innerHTML = '<div id="qrReader" style="width:100%;height:260px"></div><div style="margin-top:8px"><button id="closeScanner" class="btn ghost">Close</button></div>';
+      scanOverlay.appendChild(container);
+      document.body.appendChild(scanOverlay);
+
+      const closeBtn = container.querySelector('#closeScanner');
+      const qrReaderId = 'qrReader';
+
+      const html5QrCode = new Html5Qrcode(qrReaderId);
+      try {
+        const devices = await Html5Qrcode.getCameras();
+        if (!devices || devices.length===0) throw new Error('No camera');
+        // choose environment/back camera if available
+        const cam = devices.find(d=>/back|rear|environment/i.test(d.label)) || devices[0];
+        await html5QrCode.start(cam.id || cam.deviceId || cam, { fps:10, qrbox:250 },
+          qrMsg => {
+            // expected format site|building|room|bed|name
+            try {
+              const data = qrMsg.split('|');
+              modalLocation.value = `${data[0] || ''}${data[1] ? ' / ' + data[1] : ''}${data[2] ? ' / ' + data[2] : ''}${data[3] ? ' / ' + data[3] : ''}`.trim();
+              if (data[4]) modalName.value = data[4];
+            } catch(e){ /* ignore */ }
+            html5QrCode.stop().then(()=>{}, ()=>{});
+            document.body.removeChild(scanOverlay);
+            updateSummary();
+            showToast('QR scanned');
+          },
+          err => { /* ignore scan errors */ }
+        );
+      } catch (err) {
+        console.error(err);
+        alert('Camera not available: ' + (err.message || err));
+        document.body.removeChild(scanOverlay);
+      }
+
+      closeBtn.addEventListener('click', ()=>{
+        html5QrCode.stop().then(()=>{}, ()=>{});
+        if (scanOverlay.parentNode) document.body.removeChild(scanOverlay);
+      });
+    });
+
+    /* ---------------------------
+       Photo preview (modal)
+       ---------------------------*/
+    modalPhotoInput.addEventListener('change', (e)=>{
+      modalPhotoPreview.innerHTML = '';
+      const files = Array.from(e.target.files).slice(0,3);
+      files.forEach(f=>{
+        const url = URL.createObjectURL(f);
+        const img = document.createElement('img');
+        img.src = url; img.className='photo-thumb';
+        modalPhotoPreview.appendChild(img);
+      });
+    });
+
+    function clearModalPreview(){ modalPhotoInput.value=''; modalPhotoPreview.innerHTML=''; modalNote.value=''; renderModalItems(); updateSummary(); }
+
+    /* ---------------------------
+       Summary update
+       ---------------------------*/
+    function updateSummary(){
+      sumLocation.textContent = modalLocation.value || '-';
+      sumName.textContent = modalName.value || '-';
+      // items
+      const rows = modalItemsList.querySelectorAll('.item-row');
+      const items = [];
+      rows.forEach((r, i)=>{
+        const q = r.querySelector('select').value || 0;
+        if (Number(q) > 0) items.push({ name: ITEMS[i], qty: Number(q) });
+      });
+      if (items.length === 0) sumItems.innerHTML = '<div class="muted">No items selected</div>';
+      else {
+        sumItems.innerHTML = items.map(it => `<div style="display:flex;justify-content:space-between;padding:6px 0"><div>${it.name}</div><div style="font-weight:700">${it.qty}</div></div>`).join('');
+      }
+    }
+
+    // bind input changes
+    modalLocation.addEventListener('input', updateSummary);
+    modalName.addEventListener('input', updateSummary);
+    modalItemsList.addEventListener('change', updateSummary);
+
+    /* ---------------------------
+       Submit pickup -> persist to history
+       ---------------------------*/
+    modalSubmitBtn.addEventListener('click', ()=>{
+      const payload = {
+        id: 'PICK-' + Date.now(),
+        createdAt: new Date().toISOString(),
+        account: { name: modalName.value || adenUser.name || '', location: modalLocation.value || '' },
+        items: [],
+        note: modalNote.value || '',
+        photoData: null,
+        statusIndex: 0
+      };
+
+      // gather item quantities
+      const selects = modalItemsList.querySelectorAll('select');
+      selects.forEach((s, idx)=>{
+        const qty = Number(s.value || 0);
+        if (qty > 0) payload.items.push({ name: ITEMS[idx], qty });
+      });
+
+      if (payload.items.length === 0) { alert('Please select at least one item (qty).'); return; }
+      // photo as dataURL if provided (for demo only)
+      const file = modalPhotoInput.files && modalPhotoInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev){
+          payload.photoData = ev.target.result;
+          persistPickup(payload);
+        };
+        reader.onerror = function(){ persistPickup(payload); };
+        reader.readAsDataURL(file);
+      } else {
+        persistPickup(payload);
+      }
+    });
+
+    function persistPickup(payload) {
+      // Save to user history
+      const hist = readHistory();
+      hist.unshift(payload);
+      saveHistory(hist);
+
+      // ✅ Save to admin/pickup personnel list
+      let orders = JSON.parse(localStorage.getItem("aden_orders") || "[]");
+      orders.push({
+        ...payload,
+        status: "submitted",
+        date: new Date().toISOString(),
+      });
+      localStorage.setItem("aden_orders", JSON.stringify(orders));
+
+      showToast("Pickup requested: " + payload.id);
+      closePickupModal();
+
+      // Reset UI
+      currentStep = 0;
+      updateStatusUI();
+
+      if (historyModal.classList.contains("active")) renderHistory();
+    }
+
+    /* ---------------------------
+       History modal
+       ---------------------------*/
+    openHistoryBtn.addEventListener('click', ()=>{ historyModal.classList.add('active'); renderHistory(); });
+    closeHistoryBtn.addEventListener('click', ()=>{ historyModal.classList.remove('active'); });
+    viewHistoryBtnInline.addEventListener('click', ()=>{ historyModal.classList.add('active'); renderHistory(); });
+    clearHistoryBtn.addEventListener('click', ()=>{
+      if (!confirm('Clear all pickup history?')) return;
+      saveHistory([]);
+      renderHistory();
+    });
+
+    function renderHistory(){
+      const hist = readHistory();
+      if (!hist || hist.length===0) { historyList.innerHTML = '<div class="center muted">No pickups yet</div>'; return; }
+      historyList.innerHTML = '';
+      // show entries (filter last 3 months)
+      const threeMonthsAgo = Date.now() - (1000*60*60*24*90);
+      hist.forEach(h=>{
+        const created = new Date(h.createdAt).getTime();
+        if (created < threeMonthsAgo) return; // skip older than 3 months
+        const el = document.createElement('div'); el.className='history-item';
+        el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:700">${h.id}</div>
+            <div class="muted">${h.account.name} • ${h.account.location}</div>
+          </div>
+          <div class="muted">${new Date(h.createdAt).toLocaleString()}</div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="font-size:14px;font-weight:600">Items:</div>
+          <ul style="margin:8px 0 0 18px">${h.items.map(it=>`<li>${it.name} — ${it.qty}</li>`).join('')}</ul>
+        </div>
+        ${h.note ? `<div style="margin-top:8px"><strong>Note:</strong> ${escapeHtml(h.note)}</div>` : ''}
+        ${h.photoData ? `<div style="margin-top:8px"><img src="${h.photoData}" style="width:120px;border-radius:8px;border:1px solid #eef3fb"></div>` : ''}`;
+        historyList.appendChild(el);
+      });
+    }
+
+    /* ---------------------------
+       Status cycling (demo)
+       ---------------------------*/
+    function updateStatusUI(){
+      stepEls.forEach((el, idx)=> el.classList.toggle('active', idx <= currentStep));
+      statusText.textContent = STATUS_NAMES[currentStep] + (currentStep===0 ? ' — awaiting pickup' : '');
+    }
+    updateStatusUI();
+    setInterval(()=>{ currentStep = (currentStep + 1) % STATUS_NAMES.length; updateStatusUI(); }, 4000);
+
+    /* ---------------------------
+       Utilities & Demo history on first load
+       ---------------------------*/
+    function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[s]); }
+
+    (function ensureDemoHistory(){
+      const h = readHistory();
+      if (!h || h.length === 0){
+        const now = new Date();
+        const demo = [
+          { id:'PICK-'+(Date.now()-1000*60*60*24*10), createdAt: new Date(now - 1000*60*60*24*10).toISOString(), account:{name: adenUser.name || 'John', location: adenUser.site || 'Pani Gold'}, items:[{name:ITEMS[0],qty:2},{name:ITEMS[5],qty:3}], note:'Demo pickup', photoData:null, statusIndex:2 },
+          { id:'PICK-'+(Date.now()-1000*60*60*24*35), createdAt: new Date(now - 1000*60*60*24*35).toISOString(), account:{name: adenUser.name || 'John', location: adenUser.site || 'Pani Gold'}, items:[{name:ITEMS[3],qty:1}], note:'Demo pickup 2', photoData:null, statusIndex:2 }
+        ];
+        saveHistory(demo);
+      }
+    })();
+
+    /* ---------------------------
+       CSV demo download
+       ---------------------------*/
+    downloadDemoBtn.addEventListener('click', ()=>{
+      const rows = readHistory().slice(0,50);
+      let csv = 'id,createdAt,name,location,items,note\n';
+      rows.forEach(r=>{
+        const items = r.items.map(it=>`${it.name}(${it.qty})`).join(';');
+        csv += `"${r.id}","${r.createdAt}","${(r.account.name||'')}","${(r.account.location||'')}","${items.replace(/"/g,'') }","${(r.note||'').replace(/"/g,'')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'aden_pickups.csv'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    /* ---------------------------
+       Init
+       ---------------------------*/
+    renderAccount();
+    renderHistory();
+
+    // expose updateSummary to modal open
+    function openPickupFromHeader(){ pickupModal.classList.add('active'); updateSummary(); }
+    // bindings duplicates (some already bound)
+    // allow keyboard escape to close modals
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape'){
+        if (pickupModal.classList.contains('active')) closePickupModal();
+        if (historyModal.classList.contains('active')) historyModal.classList.remove('active');
+      }
+    });
+
+    // --- RECENT HISTORY CARD RENDER ---
+const recentHistoryList = document.getElementById('recentHistoryList');
+const recentHistoryCard = document.getElementById('recentHistoryCard');
+const viewFullHistoryBtn = document.getElementById('viewFullHistoryBtn');
+
+function renderRecentHistory(){
+  const hist = readHistory();
+  if(!hist || hist.length === 0){
+    recentHistoryList.innerHTML = '<div class="center muted">No recent pickups</div>';
+    return;
+  }
+
+  // sort & show 3 most recent
+  const recent = hist.slice(0,3);
+  recentHistoryList.innerHTML = recent.map(h=>{
+    const date = new Date(h.createdAt).toLocaleString();
+    const items = h.items.map(it => `${it.name.split('(')[0].trim()} ×${it.qty}`).join(', ');
+    return `
+      <div class="recent-item">
+        <div class="recent-item-id">${h.id}</div>
+        <div class="recent-item-date">${date}</div>
+        <div class="recent-item-detail">${items || 'No items listed'}</div>
+        ${h.note ? `<div class="recent-item-note">Note: ${h.note}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+viewFullHistoryBtn.addEventListener('click', ()=>{
+  historyModal.classList.add('active');
+  renderHistory();
+});
+
+// Render on load
+renderRecentHistory();
+
+
+    // done
+  </script>
+</body>
+</html>

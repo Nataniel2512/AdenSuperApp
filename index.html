@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aden Super App</title>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Refined Apple color palette */
+  --red: #ff3b30;
+  --orange: #ff9500;
+  --yellow: #ffcc00;
+  --purple: #af52de;
+  --blue: #007aff;
+  --green: #34c759;
+  --pink: #ff2d55;
+  --radius: 20px;
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  --glass: rgba(255, 255, 255, 0.7);
+  --blur: 25px;
+  --text-dark: #1c1c1e;
+  --text-muted: #8e8e93;
+  --bg1: #fefefe;
+  --bg2: #f7f7f8;
+}
+
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Figtree', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-dark);
+  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+  padding: 20px 18px 110px;
+}
+
+/* PAGE SLIDE TRANSITION */
+.page {
+  transition: transform 0.6s cubic-bezier(.25,.8,.25,1), opacity 0.4s ease;
+  opacity: 1;
+  transform: translateX(0);
+}
+.page.exit-to-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+.left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+}
+.greet {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.25px;
+  color: #000;
+}
+.date {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--orange), var(--red));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 6px 15px rgba(255, 105, 57, 0.35);
+}
+
+/* SEARCH BAR */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--glass);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 26px;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.search-bar ion-icon {
+  color: var(--text-muted);
+  font-size: 20px;
+  margin-right: 8px;
+}
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  flex: 1;
+  color: #111;
+  font-weight: 500;
+}
+
+/* GRID */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 18px;
+}
+.app-card {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: var(--radius);
+  padding: 20px 12px 18px;
+  text-align: center;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.45);
+  transition: transform .25s ease, box-shadow .25s ease;
+  cursor: pointer;
+}
+.app-card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+.app-card .icon {
+  font-size: 36px;
+  color: #fff;
+  border-radius: 20px;
+  padding: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+.app-card p {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: #111;
+}
+
+/* COLORFUL ICONS (muted gradients for iOS) */
+.laundry .icon { background: linear-gradient(135deg, #ff9f0a, #ff3b30); }
+.survey .icon { background: linear-gradient(135deg, #34c759, #30d158); }
+.handover .icon { background: linear-gradient(135deg, #5ac8fa, #007aff); } /* ✅ New feature icon */
+.delivery .icon { background: linear-gradient(135deg, #ffd60a, #ff9f0a); }
+.accident .icon { background: linear-gradient(135deg, #ff453a, #ff9f0a); }
+.menu .icon { background: linear-gradient(135deg, #30d158, #34c759); }
+.info .icon { background: linear-gradient(135deg, #0a84ff, #5ac8fa); }
+.support .icon { background: linear-gradient(135deg, #bf5af2, #af52de); }
+.packmeal .icon { background: linear-gradient(135deg, #ff9f0a, #ffd60a); }
+.oxygen .icon { background: linear-gradient(135deg, #5ac8fa, #0a84ff); }
+.news .icon { background: linear-gradient(135deg, #bf5af2, #af52de); }
+
+/* TABBAR */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.4);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0 14px;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
+  z-index: 999;
+}
+.tabbar ion-icon {
+  font-size: 28px;
+  color: #999;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 16px;
+}
+.tabbar ion-icon.active {
+  background: linear-gradient(135deg, var(--orange), var(--red));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(255, 105, 57, 0.35);
+  transform: scale(1.15);
+}
+.tabbar ion-icon:hover {
+  transform: scale(1.2);
+  color: var(--red);
+}
+</style>
+</head>
+
+<body>
+<script>
+const user = JSON.parse(localStorage.getItem('aden_user') || '{}');
+if (!user.name) window.location.href = 'login.html';
+</script>
+
+<div class="page" id="main-page">
+  <div class="header">
+    <div class="left">
+      <img src="logo2.png" alt="Aden Logo" class="logo-img" />
+      <div>
+        <div class="greet">Hi, <span id="userName">Guest</span> 👋</div>
+        <div class="date" id="todayDate"></div>
+      </div>
+    </div>
+    <div class="avatar" id="avatarInitial">U</div>
+  </div>
+
+  <div class="search-bar">
+    <ion-icon name="search-outline"></ion-icon>
+    <input type="text" placeholder="Search services..." />
+  </div>
+
+  <div class="app-grid">
+    <div class="app-card laundry" onclick="navigateSlide('features/laundry.html')">
+      <div class="icon"><ion-icon name="shirt-outline"></ion-icon></div>
+      <p>Laundry</p>
+    </div>
+
+    <div class="app-card survey" onclick="navigateSlide('features/clientsurvey.html')">
+      <div class="icon"><ion-icon name="happy-outline"></ion-icon></div>
+      <p>Client Survey</p>
+    </div>
+
+    <!-- ✅ New Asset Handover Feature -->
+    <div class="app-card handover" onclick="navigateSlide('features/asset-handover.html')">
+      <div class="icon"><ion-icon name="swap-horizontal-outline"></ion-icon></div>
+      <p>Asset Handover</p>
+    </div>
+
+    <div class="app-card menu" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="restaurant-outline"></ion-icon></div>
+      <p>Today's Menu</p>
+    </div>
+
+    <div class="app-card packmeal" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="fast-food-outline"></ion-icon></div>
+      <p>Packmeal Request</p>
+    </div>
+
+    <div class="app-card delivery" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="cube-outline"></ion-icon></div>
+      <p>Delivery</p>
+    </div>
+
+    <div class="app-card accident" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="warning-outline"></ion-icon></div>
+      <p>Accident Report</p>
+    </div>
+
+    <div class="app-card info" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="information-circle-outline"></ion-icon></div>
+      <p>Information Center</p>
+    </div>
+
+    <div class="app-card support" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></div>
+      <p>Support</p>
+    </div>
+
+    <div class="app-card oxygen" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="medkit-outline"></ion-icon></div>
+      <p>OXYGEN Store</p>
+    </div>
+
+    <div class="app-card news" onclick="navigateSlide('#')">
+      <div class="icon"><ion-icon name="newspaper-outline"></ion-icon></div>
+      <p>News</p>
+    </div>
+  </div>
+</div>
+
+<!-- iOS Tabbar -->
+<div class="tabbar">
+  <ion-icon name="home-outline" class="active" onclick="navigateSlide('index.html')"></ion-icon>
+  <ion-icon name="shirt-outline" onclick="navigateSlide('features/laundry.html')"></ion-icon>
+  <ion-icon name="chatbubble-outline" onclick="navigateSlide('#')"></ion-icon>
+  <ion-icon name="log-out-outline" onclick="navigateSlide('logout.html')"></ion-icon>
+</div>
+
+<script>
+document.getElementById('userName').textContent = user.name || 'Guest';
+document.getElementById('avatarInitial').textContent = user.name ? user.name[0].toUpperCase() : 'U';
+document.getElementById('todayDate').textContent =
+  new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+function navigateSlide(url){
+  const page=document.getElementById('main-page');
+  if(url==='#') return alert('Feature coming soon!');
+  page.classList.add('exit-to-left');
+  setTimeout(()=>{window.location.href=url;},400);
+}
+</script>
+</body>
+</html>

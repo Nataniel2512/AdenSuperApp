@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Asset Handover</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<style>
+:root {
+  --blue: #007aff;
+  --blue-light: #5ac8fa;
+  --green: #34c759;
+  --gray: #f4f4f8;
+  --text-dark: #1c1c1e;
+  --text-muted: #8e8e93;
+  --radius: 18px;
+  --shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+body {
+  font-family: 'Figtree', sans-serif;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f8fb 100%);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header ion-icon {
+  font-size: 26px;
+  color: var(--blue);
+  cursor: pointer;
+}
+.header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+}
+.logo {
+  height: 42px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* Container */
+.asset-container {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 22px 40px;
+  border: 1px solid rgba(0,0,0,0.05);
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 30px 0 16px;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title ion-icon {
+  color: var(--blue);
+}
+
+/* Table-like form layout */
+.asset-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+  background: #fff;
+}
+.asset-table tr:nth-child(even) {
+  background: #f9f9fb;
+}
+.asset-table td {
+  padding: 10px 14px;
+  vertical-align: middle;
+  font-size: 15px;
+}
+.asset-table td.label {
+  font-weight: 500;
+  color: var(--text-muted);
+  width: 30%;
+}
+.asset-table input {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
+  background: #fff;
+  outline: none;
+  transition: border 0.2s ease;
+}
+.asset-table input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(0,122,255,0.15);
+}
+
+/* Signature Section */
+.signature-wrapper {
+  margin-top: 10px;
+  display: grid;
+  gap: 30px;
+}
+.signature-box {
+  background: linear-gradient(145deg, #fff, #f9f9fb);
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 12px;
+  position: relative;
+}
+.signature-box canvas {
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  background: #fff;
+}
+.signature-label {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,122,255,0.3);
+  transition: all 0.2s ease;
+}
+.clear-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Submit */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-light));
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.submit-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 22px rgba(0,122,255,0.3);
+}
+
+/* Thank You */
+.thankyou {
+  display: none;
+  text-align: center;
+  margin-top: 40px;
+  animation: fadeIn 0.6s ease;
+}
+.thankyou ion-icon {
+  font-size: 70px;
+  color: var(--green);
+}
+.thankyou h3 {
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
+.thankyou p {
+  color: #777;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+<div class="header">
+  <div class="header-left">
+    <ion-icon name="chevron-back-outline" onclick="navigateBack()"></ion-icon>
+    <h1>Asset Handover</h1>
+  </div>
+  <img src="img/logo.png" alt="Aden Logo" class="logo">
+</div>
+
+<div class="asset-container">
+  <h2 class="section-title"><ion-icon name="document-text-outline"></ion-icon> Asset Information</h2>
+  <table class="asset-table">
+    <tr><td class="label">Site Name</td><td><input type="text" id="siteName"></td></tr>
+    <tr><td class="label">PO Number</td><td><input type="text" id="poNumber"></td></tr>
+    <tr><td class="label">PO Issued Date</td><td><input type="date" id="poIssued"></td></tr>
+    <tr><td class="label">Receive Date</td><td><input type="date" id="receiveDate"></td></tr>
+    <tr><td class="label">Asset Type</td><td><input type="text" id="assetType"></td></tr>
+    <tr><td class="label">Brand</td><td><input type="text" id="brand"></td></tr>
+    <tr><td class="label">Model</td><td><input type="text" id="model"></td></tr>
+    <tr><td class="label">Serial Number</td><td><input type="text" id="serialNumber"></td></tr>
+    <tr><td class="label">Asset Value (Rp)</td><td><input type="number" id="assetValue"></td></tr>
+    <tr><td class="label">Quantity</td><td><input type="number" id="quantity"></td></tr>
+    <tr><td class="label">Asset Number</td><td><input type="text" id="assetNumber"></td></tr>
+  </table>
+
+  <h2 class="section-title"><ion-icon name="pencil-outline"></ion-icon> Signatures</h2>
+  <div class="signature-wrapper">
+    <div class="signature-box">
+      <canvas id="sendByPad"></canvas>
+      <button class="clear-btn" onclick="clearPad('sendByPad')">Clear</button>
+      <div class="signature-label">Asset Sent By</div>
+    </div>
+
+    <div class="signature-box">
+      <canvas id="receiveByPad"></canvas>
+      <button class="clear-btn" onclick="clearPad('receiveByPad')">Clear</button>
+      <div class="signature-label">Asset Received By</div>
+    </div>
+  </div>
+
+  <button class="submit-btn" onclick="submitHandover()">Submit Handover</button>
+
+  <div class="thankyou" id="thankyou">
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
+    <h3>Thank you!</h3>
+    <p>Your asset handover has been successfully recorded.</p>
+  </div>
+</div>
+
+<script>
+let sendPad, receivePad;
+
+window.onload = () => {
+  sendPad = initSignaturePad("sendByPad");
+  receivePad = initSignaturePad("receiveByPad");
+};
+
+function initSignaturePad(id) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext("2d");
+  let drawing = false;
+
+  const resize = () => {
+    const data = canvas.toDataURL();
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    const img = new Image();
+    img.src = data;
+    img.onload = () => ctx.drawImage(img, 0, 0);
+  };
+  window.addEventListener("resize", resize);
+  resize();
+
+  const start = (e) => { drawing = true; draw(e, ctx, canvas); };
+  const move = (e) => { if (drawing) draw(e, ctx, canvas); };
+  const stop = () => { drawing = false; ctx.beginPath(); };
+
+  canvas.addEventListener("mousedown", start);
+  canvas.addEventListener("mousemove", move);
+  canvas.addEventListener("mouseup", stop);
+  canvas.addEventListener("mouseleave", stop);
+
+  canvas.addEventListener("touchstart", (e) => { drawing = true; draw(e.touches[0], ctx, canvas); });
+  canvas.addEventListener("touchmove", (e) => { e.preventDefault(); if(drawing) draw(e.touches[0], ctx, canvas); });
+  canvas.addEventListener("touchend", stop);
+
+  return canvas;
+}
+
+function draw(e, ctx, canvas) {
+  const rect = canvas.getBoundingClientRect();
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "#007aff";
+  ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+}
+
+function clearPad(id) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function submitHandover() {
+  const data = {
+    siteName: siteName.value,
+    poNumber: poNumber.value,
+    poIssued: poIssued.value,
+    receiveDate: receiveDate.value,
+    assetType: assetType.value,
+    brand: brand.value,
+    model: model.value,
+    serialNumber: serialNumber.value,
+    assetValue: assetValue.value,
+    quantity: quantity.value,
+    assetNumber: assetNumber.value,
+    sendSignature: sendByPad.toDataURL(),
+    receiveSignature: receiveByPad.toDataURL(),
+  };
+
+  if (!data.siteName || !data.assetType) {
+    alert("Please fill in at least Site Name and Asset Type.");
+    return;
+  }
+
+  localStorage.setItem("asset_handover", JSON.stringify(data));
+  document.getElementById("thankyou").style.display = "block";
+  document.getElementById("thankyou").scrollIntoView({ behavior: "smooth" });
+}
+
+function navigateBack() {
+  document.body.style.opacity = "0";
+  setTimeout(() => window.location.href = "../index.html", 300);
+}
+</script>
+</body>
+</html>

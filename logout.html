@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Logout - Aden Super App</title>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<style>
+:root {
+  --aden-red: #e53935;
+  --aden-orange: #ff7043;
+  --aden-gold: #ffb74d;
+  --glass: rgba(255,255,255,0.25);
+  --blur: blur(30px);
+  --shadow: 0 10px 40px rgba(0,0,0,0.15);
+  --text-light: rgba(255,255,255,0.9);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body {
+  font-family: 'Figtree', sans-serif;
+  background: linear-gradient(160deg, var(--aden-red), var(--aden-orange), var(--aden-gold));
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease infinite;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: center;
+}
+
+@keyframes gradientShift {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* floating ambient lights */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  animation: float 8s ease-in-out infinite alternate;
+}
+.blob:nth-child(1){background:#ff8a65;width:300px;height:300px;top:-100px;left:-100px;}
+.blob:nth-child(2){background:#ffb74d;width:250px;height:250px;bottom:-80px;right:-60px;animation-delay:2s;}
+@keyframes float {from{transform:translateY(0);}to{transform:translateY(40px);}}
+
+/* glass container */
+.container {
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 40px 28px;
+  max-width: 340px;
+  width: 90%;
+  z-index: 2;
+  position: relative;
+  color: var(--text-light);
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from {opacity:0; transform:translateY(30px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+/* logo */
+.logo {
+  width: 140px;
+  margin: 0 auto 20px;
+  animation: floatLogo 3s ease-in-out infinite alternate;
+}
+@keyframes floatLogo {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+p {
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 28px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* buttons */
+.btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  border-radius:18px;
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .25s ease;
+  margin-bottom:14px;
+}
+.btn.primary {
+  background: linear-gradient(135deg, #ff7043, #e53935);
+  color:#fff;
+  box-shadow:0 10px 25px rgba(229,57,53,0.4);
+}
+.btn.primary:hover {
+  transform: scale(1.05);
+  box-shadow:0 12px 30px rgba(255,112,67,0.5);
+}
+.btn.secondary {
+  background: rgba(255,255,255,0.9);
+  color: #e53935;
+}
+.btn.secondary:hover {
+  transform: scale(1.03);
+  background: #fff;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+.footer ion-icon {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+</style>
+</head>
+<body>
+
+<div class="blob"></div>
+<div class="blob"></div>
+
+<div class="container">
+  <img src="logo.png" alt="Aden Logo" class="logo" />
+  <h2>Are you sure you want to logout?</h2>
+  <p>You can always log back in anytime to continue where you left off.</p>
+
+  <button class="btn primary" onclick="logout()">
+    <ion-icon name="log-out-outline" style="margin-right:8px;font-size:20px;"></ion-icon>
+    Logout
+  </button>
+  <button class="btn secondary" onclick="cancel()">
+    <ion-icon name="arrow-back-outline" style="margin-right:8px;font-size:20px;"></ion-icon>
+    Cancel
+  </button>
+
+  <div class="footer">
+    <ion-icon name="shield-checkmark-outline"></ion-icon> Secure Session Management
+  </div>
+</div>
+
+<script>
+function logout(){
+  localStorage.removeItem('aden_user');
+  window.location.href='login.html';
+}
+function cancel(){
+  window.location.href='index.html';
+}
+</script>
+
+</body>
+</html>

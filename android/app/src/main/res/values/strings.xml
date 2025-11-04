@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Aden SuperAPP</string>
+    <string name="title_activity_main">Aden SuperAPP</string>
+    <string name="package_name">adenservices.com</string>
+    <string name="custom_url_scheme">adenservices.com</string>
+</resources>

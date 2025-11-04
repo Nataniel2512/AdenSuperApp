@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aden Laundry - Pickup Personnel</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      background: linear-gradient(180deg,#f5f7fb,#eef3fb);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial;
+      color:#1c1c1e;
+      padding:18px;
+    }
+    .wrap{ max-width:900px; margin:0 auto; }
+    h1{ font-size:22px; margin-bottom:18px; text-align:center; }
+    .orders{ display:flex; flex-direction:column; gap:12px; }
+    .order-card{
+      background:#fff;
+      border-radius:18px;
+      padding:14px 16px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    }
+    .order-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .status{
+      padding:4px 10px;
+      border-radius:10px;
+      font-size:12px;
+      font-weight:600;
+    }
+    .status.submitted{ background:#e3f2ff; color:#007aff; }
+    .status.process{ background:#fff4e5; color:#ff9500; }
+    .status.delivered{ background:#e5f9e7; color:#34c759; }
+    .order-info{ font-size:14px; color:#333; margin-top:4px; }
+    .actions{ display:flex; gap:8px; margin-top:10px; }
+    button{
+      flex:1;
+      border:none;
+      padding:8px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-blue{ background:#007aff; color:#fff; }
+    .btn-green{ background:#34c759; color:#fff; }
+    .btn-orange{ background:#ff9500; color:#fff; }
+    .empty{
+      text-align:center;
+      color:#999;
+      margin-top:60px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Pickup Personnel Dashboard</h1>
+    <div id="orders" class="orders"></div>
+    <p id="emptyMsg" class="empty" style="display:none;">No orders submitted yet</p>
+  </div>
+
+  <script>
+    const ordersEl = document.getElementById('orders');
+    const emptyMsg = document.getElementById('emptyMsg');
+
+    function loadOrders(){
+      const orders = JSON.parse(localStorage.getItem("aden_orders") || "[]");
+      ordersEl.innerHTML = "";
+      if(orders.length === 0){
+        emptyMsg.style.display = "block";
+        return;
+      }
+      emptyMsg.style.display = "none";
+
+      orders.forEach((o, idx)=>{
+        const div = document.createElement("div");
+        div.className = "order-card";
+        div.innerHTML = `
+          <div class="order-header">
+            <div><strong>${o.name}</strong> — ${o.bed}</div>
+            <div class="status ${o.status}">${o.status}</div>
+          </div>
+          <div class="order-info">📍 ${o.site}, ${o.building}, ${o.room}</div>
+          <div class="order-info">🧺 Order ID: ${o.id}</div>
+          <div class="actions">
+            ${o.status === "submitted" ? `<button class="btn-orange" onclick="updateStatus(${idx}, 'process')">Mark Processing</button>` : ""}
+            ${o.status === "process" ? `<button class="btn-blue" onclick="updateStatus(${idx}, 'delivered')">Mark Delivered</button>` : ""}
+          </div>
+        `;
+        ordersEl.appendChild(div);
+      });
+    }
+
+    function updateStatus(index, newStatus){
+      let orders = JSON.parse(localStorage.getItem("aden_orders") || "[]");
+      if(orders[index]){
+        orders[index].status = newStatus;
+        localStorage.setItem("aden_orders", JSON.stringify(orders));
+        loadOrders();
+      }
+    }
+
+    loadOrders();
+  </script>
+</body>
+</html>
